@@ -3,10 +3,10 @@
   "version": "1.1.0",
   "description": "",
   "main": "index.js",
-  "homepage": "https://mariia-slobozhan.github.io/practice_29.08.2021",
+  "homepage": "https://mariia-slobozhan.github.io/team-project-template",
   "scripts": {
     "dev": "parcel src/*.html",
-    "build": "parcel build src/*.html --public-url /practice_29.08.2021/"
+    "build": "parcel build src/*.html --public-url /team-project-template/"
   },
   "repository": {
     "type": "git",
