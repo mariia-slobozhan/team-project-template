@@ -14,23 +14,29 @@
     <link rel="stylesheet" href="../node_modules/basiclightbox/dist/basicLightbox.min.css">
   </head>
   <body>
-     <h1>Search some pictures of...</h1>
+     <h1>Search some events</h1>
     <form class="search-form" id="search-form">
       <input
         type="text"
         name="query"
         autocomplete="off"
-        placeholder="Search images..."
-        class="search-area"
+        placeholder="Search event"
+        class="search-event-area"
       />
-      <button type="submit" class="search-btn btn">Search
-        <span class="material-icons md-18">
-          search
-          </span>
-      </button>
 
+      <input
+      type="text"
+      name="country"
+      autocomplete="off"
+      placeholder="Search country"
+      class="search-country-area"
+    />
     </form>
+
+
     <ul class="gallery"></ul>
+
+
     <div class="btn-container">
       
         <button type="button" class=" load-more-btn btn" data-action="load-more">

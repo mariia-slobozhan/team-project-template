@@ -1,14 +1,33 @@
 import './sass/main.scss';
-import fetchImg from './js/apiService';
-import { form, gallery, loadMorebtn, upBtn } from './js/refs';
+import fetchEvents from './js/apiService';
+import  {eventInput, countryInput, gallery, loadMorebtn, upBtn} from './js/refs';
 import '../node_modules/material-design-icons/iconfont/material-icons.css';
 import pictureMarkup from './templates/picture.hbs';
 import * as basicLightbox from 'basiclightbox';
+
+eventInput.addEventListener('input', onSubmitForm);
+loadMorebtn.addEventListener('click', onClickLoadMore);
+gallery.addEventListener('click', openModal);
+
 
 const state = {
   page: 1,
   query: '',
 };
+
+async function onSubmitForm(e) {
+  state.page = 1;
+  // if (!e.currentTarget.elements.query.value.trim()) {
+  //   return;
+  // }
+  // loadMorebtn.style.visibility = 'hidden';
+  state.query = eventInput.value;
+  const data = await fetchEvents( state.query, state.page);
+  gallery.innerHTML = pictureMarkup(data);
+  // if (data.length > 11) {
+  //   loadMorebtn.style.visibility = 'visible';
+  // }
+}
 
 const options = {
   root: null,
@@ -20,24 +39,9 @@ const observer = new IntersectionObserver(onClickLoadMore, options);
 
 loadMorebtn.style.visibility = 'hidden';
 
-form.addEventListener('submit', onSubmitForm);
-loadMorebtn.addEventListener('click', onClickLoadMore);
-gallery.addEventListener('click', openModal);
 
-async function onSubmitForm(e) {
-  e.preventDefault();
-  state.page = 1;
-  if (!e.currentTarget.elements.query.value.trim()) {
-    return;
-  }
-  loadMorebtn.style.visibility = 'hidden';
-  state.query = e.currentTarget.elements.query.value.trim();
-  const data = await fetchImg(state.query, state.page);
-  gallery.innerHTML = pictureMarkup(data);
-  if (data.length > 11) {
-    loadMorebtn.style.visibility = 'visible';
-  }
-}
+
+
 
 async function onClickLoadMore() {
   state.page += 1;

@@ -1,7 +1,11 @@
 import axios from 'axios';
-axios.defaults.baseURL = 'https://pixabay.com/api/?image_type=photo&orientation=horizontal'
+axios.defaults.baseURL = 'https://app.ticketmaster.com/discovery/v2/'
 
-export default async function fetchImg(query, page){
-  const {data: {hits},} = await axios.get(`&q=${query}&page=${page}&per_page=12&key=23126323-c48f66a824a8fc9c468cd2358`)
-  return hits;
+ export default async function fetchEvents(query, page){
+  const {data: {_embedded: {events}}} = await axios.get(`events.json?size=20&keyword=${query}&page=${page}&apikey=1twKLyrauG3OZrFZiN9ApTE1ANWFyZTo`)
+  return events; 
 }
+
+
+
+

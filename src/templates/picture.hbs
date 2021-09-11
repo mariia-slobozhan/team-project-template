@@ -1,24 +1,18 @@
- {{#each this}}
-<div class="photo-card">
-  <img src="{{webformatURL}}" alt="{{tags}}" class="picture" data-src = {{largeImageURL}} />
+  {{#each this}}
+  <li class='event-card' id={{id}}>
 
-  <div class="stats">
-    <p class="stats-item">
-      <i class="material-icons md-18">thumb_up</i>
-     <span class="quantity">{{likes}}</span> 
+    <img class='event-image' src='{{images.3.url}}' alt='{{name}}' width=350 />
+
+    <h3 class='event-title'>{{name}}</h3>
+    <p class='event-date'>{{dates.start.localDate}}</p>
+    <p class="event-place">
+        <a href="{{_embedded.venues.0.location.latitude}}"
+            target="_blank">
+            <span class="material-icons  cards-icons">room</span>  
+        </a>
+        
+          {{_embedded.venues.0.name}}
     </p>
-    <p class="stats-item">
-      <i class="material-icons md-18">visibility</i>
-     <span class="quantity">{{views}}</span> 
-    </p>
-    <p class="stats-item">
-      <i class="material-icons md-18">comment</i>
-     <span class="quantity">{{comments}}</span>
-    </p>
-    <p class="stats-item">
-      <i class="material-icons md-18">cloud_download</i>
-      <span class="quantity">{{downloads}}</span>
-    </p>
-  </div>
-</div>
- {{/each}}
+  </li>
+{{/each}}
+
