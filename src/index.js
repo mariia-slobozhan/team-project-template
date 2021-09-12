@@ -1,33 +1,62 @@
 import './sass/main.scss';
-import fetchEvents from './js/apiService';
+import {fetchEvents, fetchPopularEvents} from './js/apiService';
 import  {eventInput, countryInput, gallery, loadMorebtn, upBtn} from './js/refs';
 import '../node_modules/material-design-icons/iconfont/material-icons.css';
 import pictureMarkup from './templates/picture.hbs';
 import * as basicLightbox from 'basiclightbox';
+import debounce from 'lodash.debounce';
 
-eventInput.addEventListener('input', onSubmitForm);
+loadMorebtn.style.visibility = 'hidden';
+
+
+window.addEventListener('DOMContentLoaded',onLoadPage)
+eventInput.addEventListener('input', debounce(onSubmitForm, 500));
 loadMorebtn.addEventListener('click', onClickLoadMore);
 gallery.addEventListener('click', openModal);
 
+let date = new Date();
+date.setDate(date.getDate());
+let time = '';
+time += date.getFullYear() + "-" + "0" + (date.getMonth()+1) + "-" + date.getDate() + "T00:00:00Z" ;
+ 
 
 const state = {
+  target: 'events',
+  // date:'2022-01-16T14:00:00Z',
+  date:'',
   page: 1,
+  country: 202,
   query: '',
 };
 
-async function onSubmitForm(e) {
+
+
+async function onLoadPage() {
   state.page = 1;
-  // if (!e.currentTarget.elements.query.value.trim()) {
-  //   return;
-  // }
-  // loadMorebtn.style.visibility = 'hidden';
-  state.query = eventInput.value;
-  const data = await fetchEvents( state.query, state.page);
+  const data = await fetchPopularEvents( state.page, state.country, state.date);
   gallery.innerHTML = pictureMarkup(data);
-  // if (data.length > 11) {
-  //   loadMorebtn.style.visibility = 'visible';
-  // }
 }
+
+async function onSubmitForm(e) {
+  state.date  = time;
+  state.page = 1;
+  state.query = e.target.value.trim();
+  const data = await fetchEvents(state.target, state.query, state.page);
+  gallery.innerHTML = pictureMarkup(data);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 const options = {
   root: null,
@@ -36,12 +65,6 @@ const options = {
 };
 
 const observer = new IntersectionObserver(onClickLoadMore, options);
-
-loadMorebtn.style.visibility = 'hidden';
-
-
-
-
 
 async function onClickLoadMore() {
   state.page += 1;
